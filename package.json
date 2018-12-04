@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/has9h/final-exam#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.10",
+    "mongoose": "^5.3.14",
     "nodemon": "^1.18.7"
   }
 }
