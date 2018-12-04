@@ -2,6 +2,7 @@ var http = require('http');
 var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
+var mongoose = require('mongoose');
 
 var app = express();                            //Init app
 
@@ -9,18 +10,16 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // Models
-var Books = require('./models/books');
+var Book = require('./models/books');
 
 // Database Connection
-mongoose.connect('mongodb://localhost/');
-var db = mongoose.connection;
-// Check connection:
-db.once('open', function(){
-  console.log("Mongoose Connected to MongoDB");
-});
-// Check for Database errors:
-db.on('error', function(err){
+var db;
+var db_url = "mongodb://" + process.env.IP + ":27018";
+
+mongoose.connect(db_url + "/books");
+mongoose.connection.on('error', function(err){
   console.log(err);
+  console.log('Could not connect to MongoDB');
 });
 
 // Views
@@ -36,9 +35,6 @@ app.get('/', function(request, response){
     response.render('index');
 });
 
-// Bring in Models:
-var Book = require('../models/books');
-
 app.post('/add', function(request, response){
   request.checkBody('title', 'Title is required').notEmpty();
   request.checkBody('author', 'Author is required').notEmpty();
@@ -47,7 +43,7 @@ app.post('/add', function(request, response){
   // Get errors:
   var errors = request.validationErrors();
     var book = new Book();
-    book.title = request.body.title;             //This is where bodyParser is needed
+    book.title = request.body.title;
     book.author = request.body.author;
     book.rating = request.body.rating;
 
@@ -65,7 +61,7 @@ app.post('/add', function(request, response){
 });
 
 // Single View:
-router.get('/book/:id', function(request, response){
+app.get('/book/:id', function(request, response){
   Book.findById(request.params.id, function(error, book){
     // console.log(article);
     // return;
@@ -74,6 +70,9 @@ router.get('/book/:id', function(request, response){
     });
   });
 });
+
+// List View:
+app
 
 app.get('/help', function(request, response){
    response.send('PLEASE HELP!'); 
