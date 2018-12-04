@@ -1,0 +1,22 @@
+{
+  "name": "final-exam",
+  "version": "1.0.0",
+  "description": "Library App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/has9h/final-exam.git"
+  },
+  "author": "Hasnain Hossain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/has9h/final-exam/issues"
+  },
+  "homepage": "https://github.com/has9h/final-exam#readme",
+  "dependencies": {
+    "nodemon": "^1.18.7"
+  }
+}
